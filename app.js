@@ -11,6 +11,8 @@ process.stdin.setRawMode(true);
 
 process.stdin.on("keypress", (str, key) => {
   if (key.ctrl && key.name == "x") {
+    console.log("\n");
+    console.log("Bye!");
     process.exit();
   }
 });

@@ -132,7 +132,7 @@ module.exports = class Scoreboard {
     return this.allPlayableScores.filter((score) => !score.played);
   }
 
-  totalYahtzees = 0;
+  bonusYahtzees = 0;
 
   getScore(score) {
     const value = score.value;
@@ -219,7 +219,6 @@ module.exports = class Scoreboard {
             }
             case "Yahtzee!": {
               if (values.every((x) => x == values[0])) {
-                this.totalYahtzees++;
                 return 50;
               }
               break;
@@ -229,6 +228,14 @@ module.exports = class Scoreboard {
             }
           }
         })();
+
+        const isYahtzeePlayed = this.yathzee.played && this.yathzee.value == 50;
+        const isValuesYahtzee = values.every((x) => x == values[0]);
+        const shouldIncrementTotal = isYahtzeePlayed && isValuesYahtzee;
+        if (shouldIncrementTotal) {
+          this.bonusYahtzees++;
+        }
+
         _score.value = value || 0;
         _score.preview = false;
         _score.played = true;
@@ -240,6 +247,11 @@ module.exports = class Scoreboard {
     for (const score of this.playableScores) {
       score.value = 0;
       score.preview = false;
+
+      const isYahtzeePlayed = this.yathzee.played && this.yathzee.value == 50;
+      const isValuesYahtzee = values.every((x) => x == values[0]);
+      const isNumberYahtzeePlayed = this.upperScores[values[0] - 1].played;
+      const JOKER = isYahtzeePlayed && isNumberYahtzeePlayed;
 
       const numberScoreIndex = [
         "__DO_NOT_REMOVE__",
@@ -271,7 +283,8 @@ module.exports = class Scoreboard {
               acc[val]++;
               return acc;
             }, {})
-          ).some((x) => x >= kindsScoreIndex + 3)
+          ).some((x) => x >= kindsScoreIndex + 3) ||
+          JOKER
         ) {
           const value = values.reduce((a, v) => a + v);
           if (value) {
@@ -291,7 +304,7 @@ module.exports = class Scoreboard {
               return acc;
             }, {})
           ).toString();
-          if (stringQuantities == "2,3" || stringQuantities == "3,2") {
+          if (stringQuantities == "2,3" || stringQuantities == "3,2" || JOKER) {
             score.value = 25;
             score.preview = true;
           }
@@ -303,7 +316,8 @@ module.exports = class Scoreboard {
           const sub2 = sorted.slice(1, 5);
           if (
             sub1.every((x, i, arr) => (i ? x == arr[i - 1] + 1 : true)) ||
-            sub2.every((x, i, arr) => (i ? x == arr[i - 1] + 1 : true))
+            sub2.every((x, i, arr) => (i ? x == arr[i - 1] + 1 : true)) ||
+            JOKER
           ) {
             score.value = 30;
             score.preview = true;
@@ -315,7 +329,8 @@ module.exports = class Scoreboard {
             values
               .slice()
               .sort()
-              .every((x, i, arr) => (i ? x == arr[i - 1] + 1 : true))
+              .every((x, i, arr) => (i ? x == arr[i - 1] + 1 : true)) ||
+            JOKER
           ) {
             score.value = 40;
             score.preview = true;
@@ -323,7 +338,7 @@ module.exports = class Scoreboard {
           break;
         }
         case "Yahtzee!": {
-          if (values.every((x) => x == values[0])) {
+          if (isValuesYahtzee) {
             score.value = 50;
             score.preview = true;
           }
@@ -361,7 +376,7 @@ module.exports = class Scoreboard {
         if (this.getSubTotal("upper") >= 63) return 35;
         return 0;
       case "lower":
-        if (this.totalYahtzees > 1) return 100 * this.totalYahtzees - 1;
+        if (this.bonusYahtzees > 0) return 100 * this.bonusYahtzees;
         return 0;
     }
   }
@@ -410,11 +425,11 @@ module.exports = class Scoreboard {
     console.log(c.gray(`├${'─'.repeat(20)}┼${'─'.repeat(20)}┤`));
     console.log(`${c.grey('│')} +/-           ${this.getPaceDiff()} ${c.grey('│')}                    ${c.grey('│')}`);
     console.log(`${c.grey('│')} Total          ${this.padStart(this.getSubTotal('upper'), 3)} ${c.grey('│')} Total          ${this.padStart(this.getSubTotal('lower'), 3)} ${c.grey('│')}`);
-    console.log(`${c.grey('│')} Bonus           ${this.padStart(this.getBonus('upper'), 2)} ${c.grey('│')} Bonus           ${this.padStart(this.getBonus('lower'), 2)} ${c.grey('│')}`);
+    console.log(`${c.grey('│')} Bonus           ${this.padStart(this.getBonus('upper'), 2)} ${c.grey('│')} Bonus         ${this.padStart(this.getBonus('lower'), 4)} ${c.grey('│')}`);
     console.log(c.gray(`├${'─'.repeat(20)}┼${'─'.repeat(20)}┤`));
-    console.log(`${c.grey('│')} Upper total    ${this.padStart(this.getSectionTotal('upper'), 3)} ${c.grey('│')} Lower total    ${this.padStart(this.getSectionTotal('lower'), 3)} ${c.grey('│')}`);
+    console.log(`${c.grey('│')} Upper total    ${this.padStart(this.getSectionTotal('upper'), 3)} ${c.grey('│')} Lower total   ${this.padStart(this.getSectionTotal('lower'), 4)} ${c.grey('│')}`);
     console.log(c.gray(`├${'─'.repeat(20)}┴${'─'.repeat(20)}┤`));
-    console.log(`${c.grey('│')} ${c.bold('Total score')}                         ${this.padStart(this.getTotalScore(), 3)} ${c.grey('│')}`);
+    console.log(`${c.grey('│')} ${c.bold('Total score')}                        ${this.padStart(this.getTotalScore(), 4)} ${c.grey('│')}`);
     console.log(c.gray(`╰${'─'.repeat(41)}╯`));
   }
 };

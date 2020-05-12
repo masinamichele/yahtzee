@@ -7,7 +7,3 @@ Play [Yahtzee!](https://en.wikipedia.org/wiki/Yahtzee) in your _terminal_ in 3 e
 - Run `npm start`
 
 ![](screenshot.png)
-
-## Known issues
-
-- Multiple yahtzees don't count as jokers
