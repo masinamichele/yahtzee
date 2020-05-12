@@ -1,4 +1,5 @@
 const c = require("chalk");
+const pjson = require("./package.json");
 
 const printLogo = () => {
   console.log(`
@@ -9,8 +10,12 @@ const printLogo = () => {
    ██║   ██║  ██║██║  ██║   ██║   ███████╗███████╗███████╗██╗
    ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚══════╝╚══════╝╚═╝
   `);
-  console.log(" Developed by Masina Michele - 2020");
-  console.log(c.gray(" https://en.wikipedia.org/wiki/Yahtzee"));
+  console.log(
+    ` Developed by Masina Michele - 2020                   v.${pjson.version}`
+  );
+  console.log(
+    c.gray(" https://en.wikipedia.org/wiki/Yahtzee") + "       Press ^X to quit"
+  );
   console.log();
 };
 

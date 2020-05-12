@@ -5,7 +5,17 @@ const utils = require("./utils");
 const Scoreboard = require("./Scoreboard");
 const Roll = require("./Roll");
 
-(async () => {
+const readline = require("readline");
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
+
+process.stdin.on("keypress", (str, key) => {
+  if (key.ctrl && key.name == "x") {
+    process.exit();
+  }
+});
+
+~(async () => {
   let GAME_STATE = "NEW";
 
   utils.clear();
@@ -23,7 +33,6 @@ const Roll = require("./Roll");
     },
   ]);
 
-  GAME_STATE = "PLAYING";
   let currentRound = 1;
 
   const redraw = (currentRoll, reroll = true) => {
@@ -44,7 +53,7 @@ const Roll = require("./Roll");
     console.log();
   };
 
-  main: while (GAME_STATE == "PLAYING") {
+  while (currentRound <= 13) {
     let currentRoll = 1;
     redraw(currentRoll);
 
@@ -62,10 +71,6 @@ const Roll = require("./Roll");
       ]);
 
       if (diceKeep) {
-        if (diceKeep == 6) {
-          GAME_STATE = "END";
-          break main;
-        }
         roll[`d${diceKeep}`].toggle();
         redraw(currentRoll, false);
       } else {
