@@ -198,7 +198,7 @@ module.exports = class Scoreboard {
             }
             case "Small straight": {
               const sorted = Array.from(new Set(values))
-                .concat(Array.from({ length: 5 }).fill(values[0]))
+                .concat(Array.from({ length: 5 }).fill(Math.max(...values)))
                 .slice(0, 5)
                 .sort();
               const sub1 = sorted.slice(0, 4);
@@ -315,7 +315,7 @@ module.exports = class Scoreboard {
         }
         case "Small straight": {
           const sorted = Array.from(new Set(values))
-            .concat(Array.from({ length: 5 }).fill(values[0]))
+            .concat(Array.from({ length: 5 }).fill(Math.max(...values)))
             .slice(0, 5)
             .sort();
           const sub1 = sorted.slice(0, 4);
