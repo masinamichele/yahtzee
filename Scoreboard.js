@@ -254,7 +254,7 @@ module.exports = class Scoreboard {
       const isYahtzeePlayed = this.yathzee.played && this.yathzee.value == 50;
       const isValuesYahtzee = values.every((x) => x == values[0]);
       const isNumberYahtzeePlayed = this.upperScores[values[0] - 1].played;
-      const JOKER = isYahtzeePlayed && isNumberYahtzeePlayed;
+      const JOKER = isYahtzeePlayed && isNumberYahtzeePlayed && isValuesYahtzee;
 
       const numberScoreIndex = [
         "__DO_NOT_REMOVE__",
