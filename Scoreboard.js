@@ -311,7 +311,10 @@ module.exports = class Scoreboard {
           break;
         }
         case "Small straight": {
-          const sorted = values.slice().sort();
+          const sorted = Array.from(new Set(values))
+            .concat(Array.from({ length: 5 }).fill(values[0]))
+            .slice(0, 5)
+            .sort();
           const sub1 = sorted.slice(0, 4);
           const sub2 = sorted.slice(1, 5);
           if (
