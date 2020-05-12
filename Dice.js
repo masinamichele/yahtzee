@@ -24,19 +24,19 @@ module.exports = class Dice {
   printRaw(row, number) {
     switch (row) {
       case 1:
-        process.stdout.write(`╭${'─'.repeat(7)}╮`);
+        process.stdout.write(c[['white', 'greenBright'][+this.selected]](`╭${'─'.repeat(7)}╮`));
         break;
       case 2:
-        process.stdout.write(`│ ${this.pipIf(4,5,6)}   ${this.pipIf(2,3,4,5,6)} │`);
+        process.stdout.write(`${c[['white', 'greenBright'][+this.selected]]('│')} ${this.pipIf(4,5,6)}   ${this.pipIf(2,3,4,5,6)} ${c[['white', 'greenBright'][+this.selected]]('│')}`);
         break;
       case 3:
-        process.stdout.write(`│ ${this.pipIf(6)} ${this.pipIf(1,3,5)} ${this.pipIf(6)} │`);
+        process.stdout.write(`${c[['white', 'greenBright'][+this.selected]]('│')} ${this.pipIf(6)} ${this.pipIf(1,3,5)} ${this.pipIf(6)} ${c[['white', 'greenBright'][+this.selected]]('│')}`);
         break;
       case 4:
-        process.stdout.write(`│ ${this.pipIf(2,3,4,5,6)}   ${this.pipIf(4,5,6)} │`);
+        process.stdout.write(`${c[['white', 'greenBright'][+this.selected]]('│')} ${this.pipIf(2,3,4,5,6)}   ${this.pipIf(4,5,6)} ${c[['white', 'greenBright'][+this.selected]]('│')}`);
         break;
       case 5:
-        process.stdout.write(`╰${'─'.repeat(7)}╯`);
+        process.stdout.write(c[['white', 'greenBright'][+this.selected]](`╰${'─'.repeat(7)}╯`));
         break;
       case 6:
         process.stdout.write(` ${number}  ${this.selected ? c.greenBright('✔') : ' '}    `);

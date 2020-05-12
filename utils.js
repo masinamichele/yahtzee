@@ -11,11 +11,11 @@ const printLogo = () => {
    ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚══════╝╚══════╝╚═╝
   `);
   console.log(
-    ` Developed by Masina Michele - 05/2020                v.${pjson.version}`
+    ` Developed by Masina Michele - 05/2020               v.${pjson.version}`
   );
   console.log(
     c.gray(" https://en.wikipedia.org/wiki/Yahtzee") +
-      `               Quit: ${c.inverse("^X")}`
+      `              Quit: ${c.inverse("^X")}`
   );
   console.log();
 };
