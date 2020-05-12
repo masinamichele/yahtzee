@@ -41,6 +41,7 @@ process.stdin.on("keypress", (str, key) => {
     score.preview(roll.getValue());
     score.print();
     console.log();
+    if (!currentRoll) return;
     process.stdout.write(
       ` Roll ${c.bold[[null, "green", "yellow", "red"][currentRoll]](
         currentRoll
@@ -100,4 +101,8 @@ process.stdin.on("keypress", (str, key) => {
     score.score(roll.getValue()).on(scoreSel);
     currentRound++;
   }
+
+  redraw(null, false);
+
+  console.log(`Game over. Score: ${score.getTotalScore()}\n`);
 })();

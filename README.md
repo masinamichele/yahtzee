@@ -10,4 +10,4 @@ Play [Yahtzee!](https://en.wikipedia.org/wiki/Yahtzee) in your _terminal_ in 3 e
 
 ## Known issues
 
-- Missing end of game condition.
+- Multiple yahtzees don't count as jokers
