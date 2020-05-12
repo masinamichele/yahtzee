@@ -99,7 +99,6 @@ process.stdin.on("keypress", (str, key) => {
         }
       }
 
-      roll.deselect();
       redraw(currentRoll, false);
 
       const { scoreSel } = await prompts([
@@ -114,6 +113,7 @@ process.stdin.on("keypress", (str, key) => {
         },
       ]);
 
+      roll.deselect();
       score.score(roll.getValue()).on(scoreSel);
       currentRound++;
     }
