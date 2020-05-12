@@ -72,7 +72,7 @@ process.stdin.on("keypress", (str, key) => {
               currentRoll == 3 ? "Confirm" : "Roll"
             }.`,
             min: 1,
-            max: 6,
+            max: 5,
           },
         ]);
 
