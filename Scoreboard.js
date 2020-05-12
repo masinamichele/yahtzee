@@ -435,7 +435,7 @@ module.exports = class Scoreboard {
     console.log(c.gray(`├${'─'.repeat(20)}┼${'─'.repeat(20)}┤`));
     console.log(`${c.grey('│')} Upper total    ${this.padStart(this.getSectionTotal('upper'), 3)} ${c.grey('│')} Lower total   ${this.padStart(this.getSectionTotal('lower'), 4)} ${c.grey('│')}`);
     console.log(c.gray(`├${'─'.repeat(20)}┴${'─'.repeat(20)}┤`));
-    console.log(`${c.grey('│')} ${c.bold('Total score')}                        ${this.padStart(this.getTotalScore(), 4)} ${c.grey('│')}`);
+    console.log(`${c.grey('│')} ${c.bold('Total score')}                        ${c.bold(this.padStart(this.getTotalScore(), 4))} ${c.grey('│')}`);
     console.log(c.gray(`╰${'─'.repeat(41)}╯`));
   }
 };
