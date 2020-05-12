@@ -9,6 +9,12 @@ const readline = require("readline");
 readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode(true);
 
+const fs = require("fs");
+const { promisify } = require("util");
+const writeFile = promisify(fs.appendFile);
+const path = require("path");
+const logfile = path.resolve(path.dirname("") + "/yahtzee.log");
+
 function quit() {
   console.log("\n");
   console.log("Bye!");
@@ -121,6 +127,11 @@ process.stdin.on("keypress", (str, key) => {
     redraw(null, false);
 
     console.log(` Game over. Score: ${score.getTotalScore()}\n`);
+
+    await writeFile(
+      logfile,
+      `${new Date().toISOString()} - ${score.getTotalScore()}\n`
+    );
 
     const { newGame } = await prompts([
       {
