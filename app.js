@@ -66,18 +66,29 @@ process.stdin.on("keypress", (str, key) => {
       while (true) {
         const { diceKeep } = await prompts([
           {
-            type: "number",
+            type: "text",
             name: "diceKeep",
-            message: `Press ${c.cyan("1-5")} to keep dices. Leave empty to ${
-              currentRoll == 3 ? "Confirm" : "Roll"
-            }.`,
-            min: 1,
-            max: 5,
+            // prettier-ignore
+            message: `Input any combination of ${c.cyan("1-5")} to keep dices.\n`,
+            initial: "Anything else to reroll\n",
+            format: (value) => {
+              return Array.from(
+                new Set(
+                  value
+                    .split("")
+                    .map(Number)
+                    .filter(Boolean)
+                    .filter((x) => x >= 1 && x <= 5)
+                )
+              );
+            },
           },
         ]);
 
-        if (diceKeep) {
-          roll[`d${diceKeep}`].toggle();
+        if (diceKeep && diceKeep.length) {
+          for (const num of diceKeep) {
+            roll[`d${num}`].toggle();
+          }
           redraw(currentRoll, false);
         } else {
           if (currentRoll <= 2) {
